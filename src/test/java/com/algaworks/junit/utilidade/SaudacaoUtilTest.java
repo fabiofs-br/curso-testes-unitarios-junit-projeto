@@ -2,6 +2,7 @@ package com.algaworks.junit.utilidade;
 
 import org.junit.jupiter.api.Test;
 
+import static com.algaworks.junit.utilidade.SaudacaoUtil.saudar;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,21 +10,36 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SaudacaoUtilTest {
 
     @Test
-    public void saudar() {
-        String saudacao = SaudacaoUtil.saudar(9);
-        assertEquals("Bom dia", saudacao, "Saudação incorreta!");
+    public void saudarBomDia() {
+        int horaValida = 9;
+        String saudacao = saudar(horaValida);
+        assertEquals("Bom dia", saudacao);
+    }
+
+    @Test
+    public void saudarBoaTarde() {
+        int horaValida = 15;
+        String saudacao = saudar(horaValida);
+        assertEquals("Boa tarde", saudacao);
+    }
+
+    @Test
+    public void saudarBoaNoite() {
+        int horaValida = 21;
+        String saudacao = saudar(horaValida);
+        assertEquals("Boa noite", saudacao);
     }
 
     @Test
     public void deveLancarException() {
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class,
-                () -> SaudacaoUtil.saudar(-10));
+                () -> saudar(-10));
         assertEquals("Hora inválida", illegalArgumentException.getMessage());
     }
 
     @Test
     public void naoDeveLancarException() {
-        assertDoesNotThrow(() -> SaudacaoUtil.saudar(0));
+        assertDoesNotThrow(() -> saudar(0));
     }
 
 }
