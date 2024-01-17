@@ -17,6 +17,14 @@ class SaudacaoUtilTest {
     }
 
     @Test
+    public void saudarBomDiaAPartir5h() {
+        int horaValida = 5;
+        String saudacao = saudar(horaValida);
+        assertEquals("Bom dia", saudacao);
+    }
+
+
+    @Test
     public void saudarBoaTarde() {
         int horaValida = 15;
         String saudacao = saudar(horaValida);
@@ -25,7 +33,14 @@ class SaudacaoUtilTest {
 
     @Test
     public void saudarBoaNoite() {
-        int horaValida = 21;
+        int horaValida = 22;
+        String saudacao = saudar(horaValida);
+        assertEquals("Boa noite", saudacao);
+    }
+
+    @Test
+    public void saudarBoaNoiteAs4h() {
+        int horaValida = 4;
         String saudacao = saudar(horaValida);
         assertEquals("Boa noite", saudacao);
     }
