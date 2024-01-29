@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class CadastroEditorTest {
+class CadastroEditorComStubTest {
 
     CadastroEditor cadastroEditor;
     ArmazenamentoEditorFixoEmMemoria armazenamentoEditor;
