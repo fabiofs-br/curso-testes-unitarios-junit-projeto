@@ -35,8 +35,11 @@ public class CadastroEditorComMockTest {
     @BeforeEach
     void init() {
         editor = new Editor(null, "Alex", "alex@email.com", BigDecimal.TEN, true);
-        Mockito.when(armazenamentoEditor.salvar(editor))
-                .thenReturn(new Editor(1L, "Alex", "alex@email.com", BigDecimal.TEN, true));
+        Mockito.when(armazenamentoEditor.salvar(editor)).thenAnswer(invocation -> {
+            Editor editorPassado = invocation.getArgument(0, Editor.class);
+            editorPassado.setId(1L);
+            return editorPassado;
+        });
     }
 
     @Test
