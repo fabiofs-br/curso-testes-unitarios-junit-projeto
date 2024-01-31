@@ -3,7 +3,6 @@ package com.algaworks.junit.blog.negocio;
 import com.algaworks.junit.blog.armazenamento.ArmazenamentoPost;
 import com.algaworks.junit.blog.exception.PostNaoEncontradoException;
 import com.algaworks.junit.blog.exception.RegraNegocioException;
-import com.algaworks.junit.blog.modelo.Editor;
 import com.algaworks.junit.blog.modelo.Ganhos;
 import com.algaworks.junit.blog.modelo.Notificacao;
 import com.algaworks.junit.blog.modelo.Post;
@@ -57,9 +56,6 @@ class CadastroPostTest {
     @Captor
     ArgumentCaptor<Notificacao> notificacaoArgumentCaptor;
 
-    @Spy
-    Editor autor = new Editor(1L, "Autor", "autor@dominio.org", BigDecimal.ZERO, false);
-
     Ganhos ganhos = new Ganhos(BigDecimal.TEN, 4, BigDecimal.valueOf(40));
 
     @Nested
@@ -71,7 +67,7 @@ class CadastroPostTest {
         class QuandoCriar {
 
             @Spy
-            Post post = new Post("Título", "Conteúdo", autor, false, false);
+            Post post = PostTestData.umPostNovo().build();;
 
             @BeforeEach
             void beforeEach() {
@@ -165,11 +161,11 @@ class CadastroPostTest {
         class QuandoEditar {
 
             @Spy
-            Post post = new Post(1L, "Título", "Conteúdo", autor, "slug", ganhos, false, false);
+            Post post = PostTestData.umPostExistente().build();
 
             @BeforeEach
             void beforeEach() {
-                when(armazenamentoPost.encontrarPorId(post.getId())).thenAnswer(invocation -> Optional.of(post));
+                when(armazenamentoPost.encontrarPorId(post.getId())).thenAnswer(invocation -> Optional.ofNullable(post));
                 when(armazenamentoPost.salvar(any(Post.class))).thenAnswer(invocation -> {
                     Post postPassado = invocation.getArgument(0, Post.class);
                     return postPassado;
@@ -231,11 +227,11 @@ class CadastroPostTest {
         class QuandoRemover {
 
             @Spy
-            Post post = new Post(1L, "Título", "Conteúdo", autor, "slug", ganhos, false, false);
+            Post post = PostTestData.umPostExistente().build();
 
             @BeforeEach
             void beforeEach() {
-                when(armazenamentoPost.encontrarPorId(post.getId())).thenAnswer(invocation -> Optional.of(post));
+                when(armazenamentoPost.encontrarPorId(post.getId())).thenAnswer(invocation -> Optional.ofNullable(post));
             }
 
             @Test
@@ -299,11 +295,11 @@ class CadastroPostTest {
     class DadoUmaEdicaoComPostValidoEPago {
 
         @Spy
-        Post post = new Post(1L, "Título", "Conteúdo", autor, "slug", ganhos, true, false);
+        Post post = PostTestData.umPostExistentePago().build();
 
         @BeforeEach
         void beforeEach() {
-            when(armazenamentoPost.encontrarPorId(post.getId())).thenAnswer(invocation -> Optional.of(post));
+            when(armazenamentoPost.encontrarPorId(post.getId())).thenAnswer(invocation -> Optional.ofNullable(post));
         }
 
         @Nested
@@ -343,7 +339,7 @@ class CadastroPostTest {
     class DadoUmaEdicaoDeUmPostInexistente {
 
         @Spy
-        Post post = new Post(1L, "Título", "Conteúdo", autor, "slug", ganhos, false, false);
+        Post post = PostTestData.umPostExistente().build();
 
         @BeforeEach
         void beforeEach() {
@@ -387,7 +383,7 @@ class CadastroPostTest {
         class QuandoRemover {
 
             @Spy
-            Post post = new Post(1L, "Título", "Conteúdo", autor, "slug", ganhos, false, true);
+            Post post = PostTestData.umPostExistentePublicado().build();
 
             @BeforeEach
             void beforeEach() {
