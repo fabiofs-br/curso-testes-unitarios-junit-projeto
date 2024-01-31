@@ -72,3 +72,4 @@ public class CadastroPost {
         this.gerenciadorNotificacao.enviar(notificacao);
     }
 }
+
